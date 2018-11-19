@@ -1125,17 +1125,21 @@ var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof na
             alert('Your browser is not supported');
             return false;
         }
-        var file = document.getElementById('file').files[0];
+        // !!! filename
+        //var file = document.getElementById('file').files[0];
+        var filename = 'test.json';
         // Create a reader object
-        var reader = new FileReader();
-        reader.addEventListener('load', function(e) {
+        //var reader = new FileReader();
+        //reader.addEventListener('load', function(e) {
+        var jdata = $.get(filename, function( data ){
           data_filter = {
                           'result' : '*',
                           'severity' : '*',
                           'nist_families' : '*',
                         };
 
-          inspec_json = JSON.parse(e.target.result);
+          //inspec_json = JSON.parse(e.target.result);
+          inspec_json = data;
           var json = jQuery.extend(true, {}, inspec_json);
           profile_name = file.name;
           json = parse_json(json, profile_name);
@@ -1152,10 +1156,12 @@ var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof na
           draw_profile_chart();
         });
         try {
-          reader.readAsBinaryString(file);
+          //reader.readAsBinaryString(file);
+                                                                           console.log('what');
         }
         catch(err) { // Catch if the browser does not support readAsBinaryString
-          reader.readAsText(file);
+          //reader.readAsText(file);
+                                                                           console.log('failed');
         }
       };
 
@@ -1408,6 +1414,9 @@ var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof na
               break;
           }
       }
+
+      // !!! call upload
+      upload();
   });
 
 
